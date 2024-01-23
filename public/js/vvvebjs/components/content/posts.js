@@ -174,7 +174,7 @@ class PostsComponent extends ServerComponent{
 				return element;
 			}, 
 			init: function (node) {
-				//this.setGroup(node.dataset.vType);
+				//this.setGroup(src.dataset.vType);
 				//return 'autocomplete';
 				return node.dataset.vSource;
 			},

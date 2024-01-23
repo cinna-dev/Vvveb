@@ -1037,10 +1037,10 @@ Vvveb.Components.extend("_base", "html/image", {
     name: "Image",
     html: '<img src="' +  Vvveb.baseUrl + 'icons/image.svg" height="128" width="128">',
     /*
-    afterDrop: function (node)
+    afterDrop: function (src)
 	{
-		node.attr("src", '');
-		return node;
+		src.attr("src", '');
+		return src;
 	},*/
     image: "icons/image.svg",
     properties: [{
@@ -2225,7 +2225,7 @@ Vvveb.Components.add("html/gridrow", {
 				data: data,
 				onChange: function(node, value, input) {
 
-					//column = $('[class*="col-"]:eq(' + this.index + ')', node);
+					//column = $('[class*="col-"]:eq(' + this.index + ')', src);
 					var column = $(this.columnNode);
 					
 					//if remove button is clicked remove column and render row properties
@@ -2245,7 +2245,7 @@ Vvveb.Components.add("html/gridrow", {
 					if (value) _class +=  ' ' + input.name + '-' + value;
 					column.attr("class", _class);
 					
-					//console.log(this, node, value, input, input.name);
+					//console.log(this, src, value, input, input.name);
 					
 					return node;
 				},	

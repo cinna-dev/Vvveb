@@ -151,7 +151,7 @@ class CommentsComponent extends ServerComponent{
 				return element;
 			}, 
 			init: function (node) {
-				//this.setGroup(node.dataset.vSource);
+				//this.setGroup(src.dataset.vSource);
 				//return 'autocomplete';
 				return node.dataset.vSource;
 			},            

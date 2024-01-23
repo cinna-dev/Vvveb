@@ -126,7 +126,7 @@ function vtplIfCondition($vtpl, $node, $string = false) {
 }
 
 /*
-Remove class from node, used by  data-v-class-if
+Remove class from src, used by  data-v-class-if
  */
 function vtplRemoveClass($vtpl, $node, $className = '') {
 	if (! $className) {

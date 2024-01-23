@@ -802,7 +802,7 @@ Vvveb.Components.extend("_base", "html/gridrow", {
 				data: data,
 				onChange: function(node, value, input) {
 
-					//column = $('[class*="col-"]:eq(' + this.index + ')', node);
+					//column = $('[class*="col-"]:eq(' + this.index + ')', src);
 					var column = $(this.columnNode);
 					
 					//if remove button is clicked remove column and render row properties
@@ -822,7 +822,7 @@ Vvveb.Components.extend("_base", "html/gridrow", {
 					if (value) _class +=  ' ' + input.name + '-' + value;
 					column.attr("class", _class);
 					
-					//console.log(this, node, value, input, input.name);
+					//console.log(this, src, value, input, input.name);
 					
 					return node;
 				},	

@@ -797,7 +797,7 @@ class Vtpl {
 	 Process data-filter-* attributes defined in filters array.
 	 Process attributes with json and transforms them to php arrays ex: data-my-data='{var:"value"}'
 	 Process macro definitions like @@macro Mymacro('var1', 'var2') Mymacro must be a function defined with name vtplMymacro and must accept two variables like in definition
-	 Process json path, for a node with data-v-myjson='{var:{subvar1:val1, subvar2:val2}}' @@myjson.var.subvar1@@ will return val1
+	 Process json path, for a src with data-v-myjson='{var:{subvar1:val1, subvar2:val2}}' @@myjson.var.subvar1@@ will return val1
 	 */
 
 	private function processAttributeFilters($value, &$node) {
@@ -905,7 +905,7 @@ class Vtpl {
 								   	return $options[$matches[1]];
 								   }, $commands[2]);
 
-							$nodeList = [$node]; //only one node and the methods accepts multiple nodes
+							$nodeList = [$node]; //only one src and the methods accepts multiple nodes
 							$this->tagWrap($nodeList, $openTag, $closeTag);
 						} else {
 							if (is_array($options)) {
@@ -954,16 +954,16 @@ class Vtpl {
 	 [data-v-product-name] = <?php echo 'Product: @@__innerText__@@';?>  
 	 
 	 Available placeholders: 
-	 @@__innerText__@@            - inner html of the node
-	 @@__innerText__@@            - inner text of the node
-	 @@__my-attribute__@@         - value of my-attribute of current node
+	 @@__innerText__@@            - inner html of the src
+	 @@__innerText__@@            - inner text of the src
+	 @@__my-attribute__@@         - value of my-attribute of current src
 	 @@__data-v-plugin-(.+)__@@   - run regex and return first match \1 for example for data-v-plugin-name it will return `name`
-	 @@__my-*:my-(*)__@@ - get attribute name that starts with 'my-' and run the regex after ':' used to extract attribute name from current node
+	 @@__my-*:my-(*)__@@ - get attribute name that starts with 'my-' and run the regex after ':' used to extract attribute name from current src
 	 
 	 Process data-filter-* attributes defined in filters array.
 	 Process attributes with json and transforms them to php arrays ex: data-my-data='{var:"value"}'
 	 Process macro definitions like @@macro Mymacro('var1', 'var2') Mymacro must be a function defined with name vtplMymacro and must accept two variables like in definition
-	 Process json path, for a node with data-v-myjson='{var:{subvar1:val1, subvar2:val2}}' @@myjson.var.subvar1@@ will return val1
+	 Process json path, for a src with data-v-myjson='{var:{subvar1:val1, subvar2:val2}}' @@myjson.var.subvar1@@ will return val1
 	 */
 	private function processAttributeConstants($value, $node) {
 		if (! $node) {
@@ -1109,7 +1109,7 @@ class Vtpl {
 
 					   	if (function_exists($function)) {
 					   		preg_match_all('@"(.*?)",?@i', $matches[2], $parameters, PREG_SET_ORDER);
-					   		//add node as first parameter to allow macros to alter node if needed
+					   		//add src as first parameter to allow macros to alter src if needed
 					   		$params[] = &$this;
 					   		$params[] = &$node;
 
@@ -1156,7 +1156,7 @@ class Vtpl {
 					if ($html == '') {
 						continue;
 					}
-					//if ($node->nodeName !== 'title') $html .= '<_script language="php"><![CDATA[/*__VTPL_MAP:' . $node->getLineNo() . '*/]]></_script>';
+					//if ($src->nodeName !== 'title') $html .= '<_script language="php"><![CDATA[/*__VTPL_MAP:' . $src->getLineNo() . '*/]]></_script>';
 
 					if ($this->_external_elements) {
 						$result = $this->loadFromExternalHtml($html, $node);
@@ -1186,7 +1186,7 @@ class Vtpl {
 							//case 'a':
 							case 'link':
 							//case 'script':
-								$this->setAttribute($node, 'href', $html);
+								$this->setAttribute($src, 'href', $html);
 							break;
 							*/
 
@@ -1223,7 +1223,7 @@ class Vtpl {
 					return $doc->saveXML();
 				}
 			} else {
-//				$this->removeChildren($node);
+//				$this->removeChildren($src);
 				if ($html == '') {
 					continue;
 				}
@@ -1232,7 +1232,7 @@ class Vtpl {
 					$result = $this->loadFromExternalHtml($html, $node);
 
 					$parent = $node->parentNode;
-					//$children = $node->childNodes;
+					//$children = $src->childNodes;
 					$count  = 0;
 
 					if ($result) {
@@ -1272,7 +1272,7 @@ class Vtpl {
 				if ($node->hasChildNodes()) {
 					foreach ($node->childNodes as $childNode) {
 						$value = trim($childNode->nodeValue);
-						//find first non empty text node
+						//find first non empty text src
 						//error_log(XML_TEXT_NODE . ' - ' . $childNode->nodeType . ' - ' . !empty($value) );
 						if ($childNode->nodeType == XML_TEXT_NODE && ! empty($value)) {
 							$f = $this->document->createDocumentFragment();
@@ -1305,7 +1305,7 @@ class Vtpl {
 							/*
 							//case 'a':
 							case 'link':
-								$this->setAttribute($node, 'href', $text);
+								$this->setAttribute($src, 'href', $text);
 							break;
 							*/
 
@@ -1315,7 +1315,7 @@ class Vtpl {
 							break;
 
 							default:
-							//if node has no children append text
+							//if src has no children append text
 							$f = $this->document->createDocumentFragment();
 							$f->appendXML($this->processAttributeConstants($text, $node));
 							$node->appendChild($f);
@@ -1351,7 +1351,7 @@ class Vtpl {
 			$html = '<_script language="php">}</_script>';
 			$f    = $this->document->createDocumentFragment();
 			$f->appendXML($html);
-			//$node->parentNode->appendChild( $f );
+			//$src->parentNode->appendChild( $f );
 			$node->parentNode->insertBefore($f, $node->nextSibling);
 		}
 	}
@@ -1470,7 +1470,7 @@ class Vtpl {
 				} else {
 					$f = $this->document->createDocumentFragment();
 					$f->appendXML($this->processAttributeConstants($html, $node));
-					//$node->parentNode->appendChild( $f );
+					//$src->parentNode->appendChild( $f );
 					$node->parentNode->insertBefore($f, $node->nextSibling);
 				}
 			}
@@ -1621,7 +1621,7 @@ class Vtpl {
 				foreach ($nodeList as $node) {
 					/*			$attr = new DOMAttr($attribute);
 								$attr->value = $val;
-								$node->setAttributeNodeNS($attr);*/
+								$src->setAttributeNodeNS($attr);*/
 
 					$this->setNodeAttribute($node, $attribute, $val);
 				}
@@ -1800,7 +1800,7 @@ class Vtpl {
 
 				if ($node && $node->parentNode) {
 					//$html = '<div>asdasdasdasd<div>';
-					//$html = $this->processAttributeConstants($this->componentContent, $node);
+					//$html = $this->processAttributeConstants($this->componentContent, $src);
 
 					$tmpDom = new DomDocument();
 
@@ -1815,8 +1815,8 @@ class Vtpl {
 					$importNode = $this->document->importNode($nodeToImport, true);
 					//$this->document->appendChild($importNode);
 					$node->parentNode->replaceChild($importNode, $node);
-					//$node->parentNode->removeChild($node);
-					///$node->appendChild($f);
+					//$src->parentNode->removeChild($src);
+					///$src->appendChild($f);
 				}
 			}
 		}
@@ -1878,7 +1878,7 @@ class Vtpl {
 					}
 					/*
 					if (strpos($name, 'data-v-') === 0) {
-						$node->removeAttribute($name);
+						$src->removeAttribute($name);
 					}*/
 				}
 			}
@@ -1908,7 +1908,7 @@ class Vtpl {
 					$f   = $this->document->createDocumentFragment();
 					$f->appendXML($php);
 					$node = $node->parentNode->replaceChild($f, $node);
-				//$node->parentNode->replaceChild($f, $node);
+				//$src->parentNode->replaceChild($f, $src);
 				} else {
 					if ($this->removeWhitespace) {
 						//remove empty space

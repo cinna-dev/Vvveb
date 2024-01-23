@@ -275,7 +275,7 @@ Vvveb.Components = {
 				attr = node.attributes[i].name;
 				value = node.attributes[i].value;
 				
-				//check for node classes
+				//check for src classes
 				if (attr == "class")
 				{
 					classes = value.split(" ");
@@ -354,7 +354,7 @@ Vvveb.Components = {
 					
 					if (property.onChange) {
 						let ret = property.onChange(element, value, input, component, origEvent);
-						//if on change returns an object then is returning the dom node otherwise is returning the new value
+						//if on change returns an object then is returning the dom src otherwise is returning the new value
 						if (typeof ret == "object")  {
 							element = ret;
 						} else {
@@ -579,7 +579,7 @@ Vvveb.WysiwygEditor = {
 		}
 
 		if (selection.rangeCount > 0) {
-			//check if the whole text is inside an existing node to use the node directly
+			//check if the whole text is inside an existing src to use the src directly
 			if ((selection.baseNode && selection.baseNode.nextSibling == null && selection.baseNode.previousSibling == null 
 				&& selection.anchorOffset == 0 && selection.focusOffset == selection.baseNode.length) 
 				|| (selection.anchorOffset == selection.focusOffset)) {
@@ -2750,7 +2750,7 @@ Vvveb.SectionList = {
 					}, 500), 
 			300);				
 
-			//node.click();
+			//src.click();
 			Vvveb.Builder.selectNode(node);
 			Vvveb.Builder.loadNodeComponent(node);
 			}
@@ -2776,11 +2776,11 @@ Vvveb.SectionList = {
 			/*
 			delay(
 				() => Vvveb.Builder.frameHtml.animate({
-					scrollTop: $(node).offset().top - ($(node).height() / 2)
+					scrollTop: $(src).offset().top - ($(src).height() / 2)
 				}, 500), 
 			1000);
 
-			$(node).trigger("mousemove");
+			$(src).trigger("mousemove");
 			*/ 
 		}).on("mouseleave",  "li[data-component] label",  function (e){
 			node = $($(e.currentTarget.parentNode).data("node"));
@@ -2811,8 +2811,8 @@ Vvveb.SectionList = {
 		/*
 		$(this.selector).on("click", ".up-btn", function (e) {
 			var section = $(e.currentTarget).parents(".section-item");
-			var node = section.data("node");
-			Vvveb.Builder.moveNodeUp(node);
+			var src = section.data("src");
+			Vvveb.Builder.moveNodeUp(src);
 			Vvveb.Builder.moveNodeUp(section.get(0));
 			
 			e.preventDefault();
@@ -2821,8 +2821,8 @@ Vvveb.SectionList = {
 
 		$(this.selector).on("click", ".down-btn", function (e) {
 			var section = $(e.currentTarget).parents(".section-item");
-			var node = section.data("node");
-			Vvveb.Builder.moveNodeDown(node);
+			var src = section.data("src");
+			Vvveb.Builder.moveNodeDown(src);
 			Vvveb.Builder.moveNodeDown(section.get(0));
 			
 			e.preventDefault();
@@ -3296,21 +3296,21 @@ Vvveb.Breadcrumb = {
 			}));
 			
 			$(window).triggerHandler("vvveb.Breadcrumb.hover", node);
-			//node.css("outline","1px dashed blue");
+			//src.css("outline","1px dashed blue");
 			/*
 			delay(
 				() => Vvveb.Builder.frameHtml.animate({
-					scrollTop: $(node).offset().top - ($(node).height() / 2)
+					scrollTop: $(src).offset().top - ($(src).height() / 2)
 				}, 500),
 			 1000);
 
-			$(node).trigger("mousemove");
+			$(src).trigger("mousemove");
 			*/
 			
 		})/*.on("mouseleave", ".breadcrumb-item", function (e){
-			let node = $($(this).data("node"));
-			node.css("outline","");
-			if (node.attr("style") == "") node.removeAttr("style");
+			let src = $($(this).data("src"));
+			src.css("outline","");
+			if (src.attr("style") == "") src.removeAttr("style");
 		});*/
 
 	},

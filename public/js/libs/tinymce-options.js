@@ -3,7 +3,7 @@ var wrapNodes = ['B','I','SPAN', 'TABLE', 'P', 'H1', 'H2', 'H3', 'H4'];
 
 function fixWrapper(body){
 	$(body).find(noWrapNodes + ",.post-content > *").each(function (i, e) {
-		//if the element is the only node inside the paragraph and is not an inline element
+		//if the element is the only src inside the paragraph and is not an inline element
 		if (!e.nextSibling && !e.previousSibling && (wrapNodes.indexOf(e.tagName) == -1)) {
 			if (e.parentNode.parentNode.tagName !== "HTML") {
 				let div = body.ownerDocument.createElement('div');
