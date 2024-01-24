@@ -1,4 +1,5 @@
 import { join } from 'path';
+import * as process from "process";
 
     /**
      * Vvveb
@@ -29,17 +30,17 @@ export class PageCache {
 
     readonly LOCK_EXT = '.new';
 
-    readonly CACHE_DIR = PAGE_CACHE_DIR;
+    readonly CACHE_DIR = process.env.PAGE_CACHE_DIR;
 
     readonly MAX_LOCK_SECONDS = 10;
 
-    private #fileName;
+    private #fileName = '';
 
-    private #canCache; //can serve cached page
+    private #canCache = ''; //can serve cached page
 
-    private #canSaveCache; //can save page in cache
+    private #canSaveCache = ''; //can save page in cache
 
-    private #cacheFolder;
+    private #cacheFolder = '';
 
     private static #instance: ?PageCache;
 

@@ -58,10 +58,10 @@ if (process.env.PAGE_CACHE) {
     const pageCache   = PageCache.getInstance();
     const waitSeconds = 10;
 
-    function saveCache() {
+    function saveCache(): void {
         const pageCache = PageCache.getInstance();
 
-        if ($pageCache->canSaveCache()) {
+        if (pageCache.canSaveCache()) {
             $pageCache->startGenerating();
             $pageCache->startCapture();
 
