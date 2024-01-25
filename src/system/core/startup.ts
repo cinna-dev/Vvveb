@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { isWritable, mkdir, isDir, sysGetTempDir } from '../../utils';
+import {isWritable, mkdir, isDir, sysGetTempDir, iniGet, iniSet} from '../../utils';
 import * as process from "process";
 let storage_dir = join(__dirname, '..', '..', 'storage');
 
@@ -45,4 +45,33 @@ process.env.DIR_MEDIA = join( process.env.DIR_PUBLIC ?? '' , 'media' );
 process.env.CDATA_START = '<![CDATA[';
 process.env.CDATA_END = ']]>';
 
-const error_log = ini_get('error_log');
+const error_log = iniGet('error_log');
+
+if (! error_log || error_log == '/dev/null') {
+    iniSet('error_log', join(storage_dir, 'logs', 'error_log'));
+}
+
+import './session.php';
+
+import './component/component.php';
+
+import './core/frontcontroller.php';
+
+import './core/view.php';
+
+import './functions.php';
+
+import './event.php';
+
+const regenerateSQL = async (sqlFile: string, file: string, modelName: string, namespace: string) => {
+    const sqlp = new SqlP();
+
+    sqlp.parseSqlPfile(sqlFile, modelName, namespace);
+
+    const dir = dirname(file);
+
+    if (! fileExists(dir)) {
+       await mkdir(dir,{mode: '0o755', recursive: true});
+    }
+    file_put_contents($file, "<?php \n" . $sqlp->generateModel());
+}

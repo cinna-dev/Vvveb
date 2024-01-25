@@ -1,7 +1,10 @@
-import {close, promises, existsSync} from 'node:fs';
+import {close, promises, existsSync, PathLike} from 'node:fs';
 import tmp from 'tmp';
+import fs, {FileHandle} from 'fs/promises';
 
 export const defined = (val: unknown) => typeof val !== "undefined"
+
+export const isSet = (val: unknown) => typeof val !== 'undefined' && val !== null;
 
 /**
  *
@@ -43,4 +46,28 @@ export const sysGetTempDir = (): string => {
         cleanupCallback();
     });
     return dirPath
+}
+
+export const iniGet = (option: string): string | false => '' // no implementation
+
+export const iniSet = (option: string, value: string): string | false => '' // no implementation
+
+export const logError = (message: string) => {
+    console.error(message);
+    return true;
+}
+
+export const fileGetContents = async (
+    filename: PathLike | FileHandle,
+    useIncludePath = false,
+    context?: string,
+    offset = 0,
+    length?: number
+) => {
+    try {
+        return await fs.readFile(filename, {encoding: 'utf-8'});
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 }
